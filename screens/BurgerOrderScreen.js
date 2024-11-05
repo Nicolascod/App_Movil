@@ -9,7 +9,7 @@ export default function BurgerOrderScreen() {
 
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState('');
-  const burgerPrice = 300; // Set the price per burger
+  const burgerPrice = 300; // Precio por hamburguesa
   const total = quantity * burgerPrice;
 
   const increaseQuantity = () => setQuantity(quantity + 1);
@@ -19,21 +19,21 @@ export default function BurgerOrderScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Back Button */}
+      {/* Botón de Retroceso */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Atrás</Text>
       </TouchableOpacity>
 
-      {/* Burger Image */}
+      {/* Imagen de la Hamburguesa */}
       <Image
-        source={require('../assets/icon.png')} // Replace with your image path
+        source={require('../assets/icon.png')} // Reemplaza con la ruta de tu imagen
         style={styles.burgerImage}
       />
 
-      {/* Burger Title */}
+      {/* Título de la Hamburguesa */}
       <Text style={styles.title}>{burger}</Text>
 
-      {/* Quantity Control */}
+      {/* Control de Cantidad */}
       <View style={styles.quantityContainer}>
         <Text style={styles.sectionTitle}>Cantidad del pedido</Text>
         <View style={styles.counterContainer}>
@@ -47,7 +47,7 @@ export default function BurgerOrderScreen() {
         </View>
       </View>
 
-      {/* Notes Section */}
+      {/* Sección de Notas */}
       <View style={styles.notesContainer}>
         <Text style={styles.sectionTitle}>Notas Adicionales</Text>
         <TextInput
@@ -60,15 +60,22 @@ export default function BurgerOrderScreen() {
         />
       </View>
 
-      {/* Total Price */}
+      {/* Precio Total */}
       <Text style={styles.totalText}>Total: ${total}</Text>
 
-      {/* Add to Order Button */}
-      <TouchableOpacity style={styles.addButton} onPress={() => {
-        // Here you could handle adding to cart or navigating
-        alert(`Agregado al pedido: ${quantity} x ${burger} - Total: $${total}`);
-        navigation.goBack();
-      }}>
+      {/* Botón para Agregar al Pedido y Navegar a PedidoScreen */}
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => {
+          // Navega a PedidoScreen con los detalles del pedido
+          navigation.navigate('PedidoSelection', {
+            burger,
+            quantity,
+            notes,
+            total
+          });
+        }}
+      >
         <Text style={styles.addButtonText}>Agregar al Pedido</Text>
       </TouchableOpacity>
     </View>

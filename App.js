@@ -13,6 +13,7 @@ import MilanesaSelectionScreen from './screens/MilanesasSelectionScreen';
 import EmpanadaSelectionScreen from './screens/EmpanadaSelectionScreen';
 import PizzaSelectionScreen from './screens/PizzaSelectionScreen';
 import BebidasSelectionScreen from './screens/BebidasSelectionScreen';
+import PedidoScreen from './screens/PedidoScreen';
 export default function App() {
   
   const Stack = createStackNavigator();
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="EmpanadaSelection" component={EmpanadaSelectionScreen} />
         <Stack.Screen name="PizzaSelection" component={PizzaSelectionScreen} />
         <Stack.Screen name="BebidasSelection" component={BebidasSelectionScreen} />
+        <Stack.Screen name="PedidoSelection" component={PedidoScreen} />
       </Stack.Navigator>
     );
   }
