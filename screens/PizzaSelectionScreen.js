@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native'; // Importar useRoute
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function PizzaSelectionScreen() {
   const navigation = useNavigation();
+  const route = useRoute(); // Usar useRoute para obtener los parámetros de la pantalla anterior
+  const { table } = route.params; // Obtener el parámetro 'table'
 
   // Lista de pizzas con nombre y precio
   const pizzas = [
@@ -18,6 +20,9 @@ export default function PizzaSelectionScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Mostrar la mesa seleccionada */}
+      <Text style={styles.tableInfo}>Mesa: {table}</Text>
+
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
@@ -36,7 +41,11 @@ export default function PizzaSelectionScreen() {
             <Text style={styles.itemText}>{`${pizza.name} - ${pizza.price}€`}</Text>
             <TouchableOpacity
               style={styles.orderButton}
-              onPress={() => navigation.navigate('Order', { item: pizza.name, price: pizza.price })}
+              onPress={() => navigation.navigate('Order', { 
+                item: pizza.name, 
+                price: pizza.price, 
+                table: table // Pasar también el parámetro 'table'
+              })}
             >
               <Text style={styles.orderButtonText}>Pedir +</Text>
             </TouchableOpacity>
@@ -75,6 +84,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+  },
+  tableInfo: {
+    fontSize: 20,
+    color: '#ffffff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,
   },
   item: {
     width: '85%',
