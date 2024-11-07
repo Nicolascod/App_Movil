@@ -8,41 +8,36 @@ export default function BurgerSelectionScreen() {
 
   // Lista de tipos de hamburguesas
   const burgers = [
-    'Hamburguesa Clásica',
-    'Hamburguesa con Queso',
-    'Hamburguesa BBQ',
-    'Hamburguesa Doble',
-    'Hamburguesa de Pollo',
-    'Hamburguesa Vegetariana',
-    'Hamburguesa con Tocino',
-    'Hamburguesa Picante',
+    {name:'Hamburguesa Clásica',price:300},
+    {name:'Hamburguesa con Queso',price:200},
+    {name:'Hamburguesa BBQ',price:250},
+    {name:'Hamburguesa Doble',price:400},
+    {name:'Hamburguesa de Pollo',price:350},
+    {name:'Hamburguesa Vegetariana',price:200},
+    {name:'Hamburguesa con Tocino',price:350},
+    {name:'Hamburguesa Picante',price:500},
   ];
 
   return (
     <View style={styles.container}>
-      {/* ScrollView para toda la pantalla, incluyendo el botón de regreso */}
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-        {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={40} color="white" />
         </TouchableOpacity>
 
-        {/* Imagen de Hamburguesa */}
         <Image
-          source={require('../assets/hamburguesa.png')} // Cambia esta ruta si es necesario
+          source={require('../assets/hamburguesa.png')}
           style={styles.burgerImage}
         />
 
-        {/* Título */}
         <Text style={styles.title}>Seleccione su Hamburguesa</Text>
 
-        {/* Lista de hamburguesas */}
         {burgers.map((burger, index) => (
           <View key={index} style={styles.burgerItem}>
-            <Text style={styles.burgerText}>{burger}</Text>
+            <Text style={styles.burgerText}>{`${burger.name} - ${burger.price}€`}</Text>
             <TouchableOpacity
               style={styles.orderButton}
-              onPress={() => navigation.navigate('Order', { burger })}
+              onPress={() => navigation.navigate('Order', { item: burger.name, price: burger.price })}
             >
               <Text style={styles.orderButtonText}>Pedir +</Text>
             </TouchableOpacity>
@@ -61,10 +56,10 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: 'center',
     paddingBottom: 20,
-    paddingTop: 50, // Espaciado desde la parte superior
+    paddingTop: 50,
   },
   backButton: {
-    alignSelf: 'flex-start', // Para alinearlo a la izquierda dentro de ScrollView
+    alignSelf: 'flex-start',
     marginLeft: 20,
     marginBottom: 20,
   },

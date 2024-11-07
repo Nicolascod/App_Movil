@@ -6,32 +6,37 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function EmpanadaSelectionScreen() {
   const navigation = useNavigation();
 
+  // Lista de empanadas con nombre y precio
   const empanadas = [
-    'Empanada de Carne',
-    'Empanada de Pollo',
-    'Empanada de Jamón y Queso',
-    'Empanada de Verduras',
-    'Empanada de Queso',
-    'Empanada Picante',
+    { name: 'Empanada de Carne', price: 150 },
+    { name: 'Empanada de Pollo', price: 140 },
+    { name: 'Empanada de Jamón y Queso', price: 160 },
+    { name: 'Empanada de Verduras', price: 130 },
+    { name: 'Empanada de Queso', price: 140 },
+    { name: 'Empanada Picante', price: 155 },
   ];
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+        {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={40} color="white" />
         </TouchableOpacity>
 
+        {/* Imagen de Empanadas */}
         <Image source={require('../assets/empanadas.jpg')} style={styles.image} />
 
+        {/* Título */}
         <Text style={styles.title}>Seleccione su Empanada</Text>
 
+        {/* Lista de empanadas */}
         {empanadas.map((empanada, index) => (
           <View key={index} style={styles.item}>
-            <Text style={styles.itemText}>{empanada}</Text>
+            <Text style={styles.itemText}>{`${empanada.name} - ${empanada.price}€`}</Text>
             <TouchableOpacity
               style={styles.orderButton}
-              onPress={() => navigation.navigate('Order', { item: empanada })}
+              onPress={() => navigation.navigate('Order', { item: empanada.name, price: empanada.price })}
             >
               <Text style={styles.orderButtonText}>Pedir +</Text>
             </TouchableOpacity>
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: 'center',
     paddingBottom: 20,
-    paddingTop: 50, // Spacing from the top
+    paddingTop: 50, // Espaciado desde la parte superior
   },
   backButton: {
     alignSelf: 'flex-start',
@@ -106,4 +111,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-

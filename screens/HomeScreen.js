@@ -32,7 +32,7 @@ export default function HomeScreen() {
               styles.tableButton,
               selectedTable === table && styles.selectedTable,
             ]}
-            onPress={() => setSelectedTable(table)}
+            onPress={() => setSelectedTable(table)} // Mantiene la mesa seleccionada
           >
             <Text style={styles.tableText}>{table}</Text>
           </TouchableOpacity>
@@ -40,10 +40,10 @@ export default function HomeScreen() {
       </View>
 
       {/* Botón para seleccionar un plato (sólo visible si se selecciona una mesa) */}
-      {selectedTable && (
+      {selectedTable && ( // Muestra el botón solo si hay una mesa seleccionada
         <TouchableOpacity
           style={styles.selectButton}
-          onPress={() => navigation.navigate('Menu', { table: selectedTable })}
+          onPress={() => navigation.navigate('Menu', { table: selectedTable })} // Navega al menú pasando la mesa seleccionada
         >
           <Text style={styles.selectButtonText}>Seleccione Un Plato</Text>
         </TouchableOpacity>

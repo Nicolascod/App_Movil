@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Image, StyleSheet } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
-export default function BurgerOrderScreen() {
+export default function OrderScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { burger } = route.params;
+  const { item, price = 0, table } = route.params;  // Recibe también 'table'
+
+  // Asegúrate de que todos los parámetros sean cadenas
+  const itemName = item ? String(item) : 'Producto no disponible';  // Convierte a cadena
+  const tableNumber = table ? String(table) : 'Mesa no asignada';  // Asegura que 'table' sea una cadena
 
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState('');
-  const burgerPrice = 300; // Precio por hamburguesa
-  const total = quantity * burgerPrice;
+  const total = (quantity * price).toFixed(2);  // Total calculado
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => {
@@ -18,20 +22,24 @@ export default function BurgerOrderScreen() {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       {/* Botón de Retroceso */}
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
         <Text style={styles.backButtonText}>Atrás</Text>
       </TouchableOpacity>
 
-      {/* Imagen de la Hamburguesa */}
+      {/* Imagen del Ítem */}
       <Image
-        source={require('../assets/icon.png')} // Reemplaza con la ruta de tu imagen
-        style={styles.burgerImage}
+        source={require('../assets/icon.png')}  // Verifica la ruta de la imagen
+        style={styles.image}
       />
 
-      {/* Título de la Hamburguesa */}
-      <Text style={styles.title}>{burger}</Text>
+      {/* Título del Ítem */}
+      <Text style={styles.title}>{itemName}</Text>
+
+      {/* Mesa */}
+      <Text style={styles.tableText}>Mesa: {tableNumber}</Text>
 
       {/* Control de Cantidad */}
       <View style={styles.quantityContainer}>
@@ -63,22 +71,25 @@ export default function BurgerOrderScreen() {
       {/* Precio Total */}
       <Text style={styles.totalText}>Total: ${total}</Text>
 
-      {/* Botón para Agregar al Pedido y Navegar a PedidoScreen */}
+      {/* Botón para Agregar al Pedido */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => {
-          // Navega a PedidoScreen con los detalles del pedido
+          // Navega a PedidoSelection con todos los detalles, incluyendo 'table'
           navigation.navigate('PedidoSelection', {
-            burger,
+            item: itemName,  // Pasa el 'item' como cadena
+            price,
             quantity,
             notes,
-            total
+            total,
+            table: tableNumber  // Pasa el 'table' como cadena
           });
         }}
       >
         <Text style={styles.addButtonText}>Agregar al Pedido</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 }
 
@@ -96,7 +107,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
   },
-  burgerImage: {
+  image: {
     width: '100%',
     height: 200,
     resizeMode: 'contain',
@@ -106,6 +117,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
     textAlign: 'center',
+    marginBottom: 20,
+  },
+  tableText: {
+    fontSize: 18,
+    color: 'white',
     marginBottom: 20,
   },
   quantityContainer: {

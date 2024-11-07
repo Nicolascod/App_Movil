@@ -1,47 +1,55 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native'; // Usar useRoute para acceder a la mesa
 import { MaterialIcons } from '@expo/vector-icons';
 
 export default function LomitoSelectionScreen() {
   const navigation = useNavigation();
+  const route = useRoute(); // Usar useRoute para obtener los parámetros de la pantalla anterior
+  const { table } = route.params; // Obtener el parámetro 'table'
 
-  // List of lomito options
+  // Lista de item con nombre y precio
   const lomitos = [
-    'Lomito Clásico',
-    'Lomito Completo',
-    'Lomito con Queso',
-    'Lomito con Jamón',
-    'Lomito Vegetariano',
-    'Lomito Picante',
+    { name: 'Lomito Clásico', price: 250 },
+    { name: 'Lomito Completo', price: 300 },
+    { name: 'Lomito con Queso', price: 280 },
+    { name: 'Lomito con Jamón', price: 290 },
+    { name: 'Lomito Vegetariano', price: 260 },
+    { name: 'Lomito Picante', price: 275 },
   ];
 
   return (
     <View style={styles.container}>
-      {/* ScrollView to contain all items and back button */}
+      {/* Mostrar la mesa seleccionada */}
+      <Text style={styles.tableInfo}>Mesa: {table}</Text>
+
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         
-        {/* Back Button */}
+        {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={40} color="white" />
         </TouchableOpacity>
 
-        {/* Lomito Image */}
+        {/* Imagen del Lomito */}
         <Image
-          source={require('../assets/Lomito.png')} // Update this path if needed
+          source={require('../assets/Lomito.png')} // Cambia esta ruta si es necesario
           style={styles.lomitoImage}
         />
 
-        {/* Title */}
+        {/* Título */}
         <Text style={styles.title}>Seleccione su Lomito</Text>
 
-        {/* List of lomito options */}
+        {/* Lista de opciones de lomitos */}
         {lomitos.map((lomito, index) => (
           <View key={index} style={styles.lomitoItem}>
-            <Text style={styles.lomitoText}>{lomito}</Text>
+            <Text style={styles.lomitoText}>{`${lomito.name} - ${lomito.price}€`}</Text>
             <TouchableOpacity
               style={styles.orderButton}
-              onPress={() => navigation.navigate('Order', { item: lomito })}
+              onPress={() => navigation.navigate('Order', { 
+                item: lomito.name, 
+                price: lomito.price, 
+                table: table // Pasar también el parámetro 'table'
+              })}
             >
               <Text style={styles.orderButtonText}>Pedir +</Text>
             </TouchableOpacity>
@@ -60,10 +68,10 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: 'center',
     paddingBottom: 20,
-    paddingTop: 50, // Spacing from the top
+    paddingTop: 50, // Espaciado desde la parte superior
   },
   backButton: {
-    alignSelf: 'flex-start', // Align to the left within ScrollView
+    alignSelf: 'flex-start',
     marginLeft: 20,
     marginBottom: 20,
   },
@@ -80,6 +88,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+  },
+  tableInfo: {
+    fontSize: 20,
+    color: '#ffffff',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,
   },
   lomitoItem: {
     width: '85%',

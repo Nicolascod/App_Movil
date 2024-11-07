@@ -6,36 +6,37 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function MilanesaSelectionScreen() {
   const navigation = useNavigation();
 
+  // Lista de milanesas con nombre y precio
   const milanesas = [
-    'Milanesa Clásica',
-    'Milanesa Napolitana',
-    'Milanesa con Queso',
-    'Milanesa con Jamón',
-    'Milanesa de Pollo',
-    'Milanesa Vegetariana',
+    { name: 'Milanesa Clásica', price: 200 },
+    { name: 'Milanesa Napolitana', price: 250 },
+    { name: 'Milanesa con Queso', price: 220 },
+    { name: 'Milanesa con Jamón', price: 230 },
+    { name: 'Milanesa de Pollo', price: 210 },
+    { name: 'Milanesa Vegetariana', price: 190 },
   ];
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-        {/* Back button */}
+        {/* Botón de regreso */}
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <MaterialIcons name="arrow-back" size={40} color="white" />
         </TouchableOpacity>
 
-        {/* Image logo */}
+        {/* Imagen de Milanesa */}
         <Image source={require('../assets/icon.png')} style={styles.image} />
 
-        {/* Title */}
+        {/* Título */}
         <Text style={styles.title}>Seleccione su Milanesa</Text>
 
-        {/* List of milanesas */}
+        {/* Lista de milanesas */}
         {milanesas.map((milanesa, index) => (
           <View key={index} style={styles.item}>
-            <Text style={styles.itemText}>{milanesa}</Text>
+            <Text style={styles.itemText}>{`${milanesa.name} - ${milanesa.price}€`}</Text>
             <TouchableOpacity
               style={styles.orderButton}
-              onPress={() => navigation.navigate('Order', { item: milanesa })}
+              onPress={() => navigation.navigate('Order', { item: milanesa.name, price: milanesa.price })}
             >
               <Text style={styles.orderButtonText}>Pedir +</Text>
             </TouchableOpacity>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     alignItems: 'center',
     paddingBottom: 20,
-    paddingTop: 50, // Padding from top
+    paddingTop: 50,
   },
   backButton: {
     alignSelf: 'flex-start',
